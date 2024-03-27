@@ -1,0 +1,17 @@
+jsp : 결과 보여주기, 입력받기
+servlet : dao 연동
+dao : db 연동
+dto : jsp <==> Servlet <==> dao 데이터 주고 받기 위한 객체
+
+커넥션 풀 : 데이터베이스 연동 변경
+1. 톰캣
+2. HikariCP
+
+" *.do "
+insert.do
+update.do
+delete.do
+get.do
+list.do
+
+/todo_m2/list.do - /todo_m2 = /list.do
