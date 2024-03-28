@@ -15,6 +15,7 @@ public class BoardReadAction implements Action {
   public ActionForward execute(HttpServletRequest req) throws Exception {
     int bno = Integer.parseInt(req.getParameter("bno"));
     BoardService service = new BoardServiceImpl();
+
     BoardDto dto = service.read((bno));
     req.setAttribute("dto", dto);
 
