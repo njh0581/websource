@@ -30,7 +30,6 @@ public class BoardReplyAction implements Action {
     replyDto.setReRef(reRef);
     replyDto.setReSeq(reSeq);
     replyDto.setReLev(reLev);
-    replyDto.setBno(bno);
 
     BoardService service = new BoardServiceImpl();
     //성공시 리스트 보여주기
