@@ -27,6 +27,7 @@ public class BoardListAction implements Action {
       searchDto,
       service.getTotalRows(criteria, keyword)
     );
+
     //BoardService list 호출
 
     List<BoardDto> list = service.list(searchDto);

@@ -2,6 +2,7 @@ package action;
 
 import dto.BoardDto;
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
@@ -22,6 +23,11 @@ public class BoardWriteAction implements Action {
     insertDto.setTitle(req.getParameter("title"));
     insertDto.setContent(req.getParameter("content"));
     insertDto.setPassword(req.getParameter("password"));
+
+    String page = req.getParameter("page");
+    String amount = req.getParameter("amount");
+    String criteria = req.getParameter("criteria");
+    String keyword = URLEncoder.encode(req.getParameter("keyword"), "utf-8");
 
     // 파일 업로드
     Part part = req.getPart("attach");
@@ -48,7 +54,25 @@ public class BoardWriteAction implements Action {
 
     // true : 목록 false : qna_board_write.jsp
     if (!service.insert(insertDto)) {
-      path = "/view/qna_board_write.jsp";
+      path =
+        "/view/qna_board_write.jsp?page=" +
+        page +
+        "&amount=" +
+        amount +
+        "&criteria=" +
+        criteria +
+        "&keyword=" +
+        keyword;
+    } else {
+      path +=
+        "?page=" +
+        page +
+        "&amount=" +
+        amount +
+        "&criteria=" +
+        criteria +
+        "&keyword=" +
+        keyword;
     }
 
     return new ActionForward(path, true);

@@ -53,12 +53,12 @@ public class BoardDao {
       String sql = "";
       if (criteria.isEmpty()) {
         sql += "SELECT count(*) FROM board";
+        pstmt = con.prepareStatement(sql);
       } else {
         sql += "SELECT count(*) FROM board where " + criteria + " like ?";
         pstmt = con.prepareStatement(sql);
         pstmt.setString(1, "%" + keyword + "%");
       }
-      pstmt = con.prepareStatement(sql);
       rs = pstmt.executeQuery();
       if (rs.next()) {
         total = rs.getInt(1);
@@ -96,6 +96,7 @@ public class BoardDao {
         sql += "WHERE rownum <= ?) WHERE rnum > ?";
 
         pstmt = con.prepareStatement(sql);
+
         pstmt.setString(1, "%" + searchDto.getKeyword() + "%");
         pstmt.setInt(2, start);
         pstmt.setInt(3, end);
@@ -308,6 +309,45 @@ public class BoardDao {
       close(con, pstmt, rs);
     }
     return list;
+  }
+
+  //bno와 password 받아서 비밀번호 확인
+  public int pwdCheck(BoardDto passDto) {
+    //bno와 password가 일치하면 삭제
+    int result = 0;
+    con = getConnection();
+    String sql = "select count(*) from board where bno=? and password=?";
+    try {
+      pstmt = con.prepareStatement(sql);
+      pstmt.setInt(1, passDto.getBno());
+      pstmt.setString(2, passDto.getPassword());
+      rs = pstmt.executeQuery();
+      if (rs.next()) {
+        result = rs.getInt(1);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(con, pstmt, rs);
+    }
+    return result;
+  }
+
+  public int deleteAll(int re_ref) {
+    //bno와 password가 일치하면 삭제
+    int result = 0;
+    con = getConnection();
+    String sql = "Delete from board where re_ref = ?";
+    try {
+      pstmt = con.prepareStatement(sql);
+      pstmt.setInt(1, re_ref);
+      result = pstmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(con, pstmt, rs);
+    }
+    return result;
   }
 
   //4. 자원 정리
